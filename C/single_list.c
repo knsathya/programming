@@ -57,6 +57,112 @@ node_t *find_middle(node_t *head)
 	return slow;
 }
 
+node_t *find_element(node_t *head, int data)
+{
+	if (!head)
+		return NULL;
+
+	while(head) {
+		if (head->data == data)
+			return head;
+		head = head->next;
+	}
+
+	return NULL;
+}
+
+int del_middle(node_t **head)
+{
+	node_t *pre, *fast, *slow;
+
+	if (!head || !*head)
+		return -EINVAL;
+
+	pre = *head;
+	fast = *head;
+	slow = *head;
+
+	while (fast != NULL && fast->next != NULL) {
+		pre = slow;
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+
+	pre->next = slow->next;
+
+	free(slow);
+
+	if (slow == *head)
+		*head = NULL;
+
+	return 0;
+}
+
+int list_len(node_t *head)
+{
+	int count = 0;
+
+	if (!head)
+		return 0;
+
+	while(head) {
+		count++;
+		head = head->next;
+	}
+
+	return count;
+}
+
+int list_rec_len(node_t *head)
+{
+	if (!head)
+		return 0;
+
+	return 1 + list_rec_len(head->next);
+}
+
+int reverse(node_t **head)
+{
+	node_t *prev = NULL, *curr, *next;
+
+	if (!head)
+		return -EINVAL;
+
+	curr = *head;
+
+	while(curr) {
+		next = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = next;
+	}
+
+	*head = prev;
+
+	return 0;
+}
+
+int recursive_reverse(node_t **head)
+{
+	node_t *first, *rest;
+
+	first = *head;
+
+	if (!first)
+		return 0;
+
+	rest = first->next;
+
+	if (!rest)
+		return 0;
+
+	recursive_reverse(&rest);
+
+	first->next->next = first;
+	first->next = NULL;
+	*head = rest;
+}
+
 int print_list(node_t *head)
 {
 	int pos = 0;
@@ -65,7 +171,8 @@ int print_list(node_t *head)
 		printf("Empty list\n");
 
 	while (head) {
-		printf("Node %d, Value %d\n", pos++, head->data);
+		printf("Node %d, Addr %p, Value %d\n", pos++,
+		       head, head->data);
 		head = head->next;
 	}
 
@@ -112,6 +219,10 @@ int main(int argc, char *argv[])
 		printf("0: Exit the program\n");
 		printf("1: Print the list\n");
 		printf("2: Find the middle of the list\n");
+		printf("3: Delete the middle of the list\n");
+		printf("4: Length of the list\n");
+		printf("5: Reverse the list\n");
+		printf("6: Find the element\n");
 		scanf("%d", &choice);
 
 		switch(choice) {
@@ -127,6 +238,55 @@ int main(int argc, char *argv[])
 			tmp = find_middle(head);
 			if (tmp)
 				printf("Middle element is %d\n", tmp->data);
+			break;
+		case 3:
+			printf("case 3\n");
+			ret = del_middle(&head);
+			if (ret)
+				printf("Delete middle element failed\n");
+			break;
+		case 4:
+			printf("case 4\n");
+			printf("List length %d\n", list_len(head));
+			printf("Recursive List length %d\n",
+			       list_rec_len(head));
+			break;
+		case 5:
+			printf("case 5\n");
+			printf("Choose one of the following option\n");
+			printf("0: Normal reverse\n");
+			printf("1: Recursive reverse\n");
+			scanf("%d", &choice);
+			switch(choice) {
+			case 0:
+				ret = reverse(&head);
+				if (ret)
+					printf("Reverse (normal) linked list failed\n");
+				break;
+			case 1:
+				ret = recursive_reverse(&head);
+				if (ret)
+					printf("Reverse (recursive) linked list failed\n");
+				break;
+			default:
+				break;
+			}
+			break;
+		case 6:
+			printf("case 6\n");
+			printf("Enter the value of the element:\n");
+			scanf("%d", &ret);
+			printf("Choose the search method:\n");
+			scanf("%d", &choice);
+			switch(choice) {
+			case 0:
+				tmp = find_element(head, ret);
+				printf("Element assosiated with data %d is %p\n",
+				       ret, tmp);
+				break;
+			default:
+				break;
+			}
 			break;
 		default:
 			printf("case default %d\n", choice);
