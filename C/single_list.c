@@ -224,6 +224,40 @@ int merge_sort(node_t **head)
 	return 0;
 }
 
+int bubble_sort(node_t **head)
+{
+	node_t *curr1, *curr2, *pre1, *pre2, *tmp;
+
+	if (!head)
+		return 0;
+
+	if (!*head)
+		return 0;
+
+	for (curr1 = *head, pre1 = NULL; curr1; pre1 = curr1, curr1 = curr1->next) {
+		for (curr2 = curr1->next, pre2 = curr1; curr2; pre2 = curr2, curr2 = curr2->next) {
+			if (curr1->data > curr2->data) {
+				if (*head == curr1)
+					*head = curr2;
+				//Update prev->next
+				if (pre1)
+					pre1->next = curr2;
+				pre2->next = curr1;
+
+				//Update curr->next
+				tmp = curr1->next;
+				curr1->next = curr2->next;
+				curr2->next = tmp;
+
+				//Swap curr1 and curr2
+				tmp = curr1;
+				curr1 = curr2;
+				curr2 = curr1;
+			}
+		}
+	}
+}
+
 node_t *get_nthnode(node_t *head, int count)
 {
 	if (count == 1)
@@ -342,6 +376,7 @@ int main(int argc, char *argv[])
 		printf("7: Introduce loop at nth element\n");
 		printf("8: Find the loop element\n");
 		printf("9: Merge sort the list\n");
+		printf("10: Bubble sort the list\n");
 		scanf("%d", &choice);
 
 		switch(choice) {
@@ -420,6 +455,10 @@ int main(int argc, char *argv[])
 		case 9:
 			printf("case 9\n");
 			merge_sort(&head);
+			break;
+		case 10:
+			printf("case 10\n");
+			bubble_sort(&head);
 			break;
 		default:
 			printf("case default %d\n", choice);
