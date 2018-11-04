@@ -83,24 +83,6 @@ int main(int argc, char *argv[])
 		case 4:
 			printf("case 4\n");
 			break;
-		case 5:
-			printf("case 5\n");
-			break;
-		case 6:
-			printf("case 6\n");
-			break;
-		case 7:
-			printf("case 7\n");
-			break;
-		case 8:
-			printf("case 8\n");
-			break;
-		case 9:
-			printf("case 9\n");
-			break;
-		case 10:
-			printf("case 10\n");
-			break;
 		default:
 			printf("case default %d\n", choice);
 			break;
