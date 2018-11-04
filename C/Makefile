@@ -19,5 +19,7 @@ numbers: numbers.o
 
 pointers: pointers.o
 
+stack_test: stack.o stack_test.o
+
 clean:
-	rm -f *.o queue_test bits double_list single_list divisor pointers numbers tree
+	rm -f *.o queue_test bits double_list single_list divisor pointers numbers tree stack_test
