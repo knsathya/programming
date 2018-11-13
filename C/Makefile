@@ -1,4 +1,4 @@
-CC=gcc 
+CC=gcc
 CFLAGS=-Wall
 
 INC=-I./
@@ -11,7 +11,7 @@ divisor: divisor.o
 
 double_list: double_list.o
 
-single_list: single_list.o list_test.o
+list_test: single_list.o list_test.o sort.o
 
 tree: tree.o
 
@@ -21,5 +21,7 @@ pointers: pointers.o
 
 stack_test: stack.o stack_test.o
 
+array_test: arrays.o array_test.o sort.o
+
 clean:
-	rm -f *.o queue_test bits double_list single_list divisor pointers numbers tree stack_test
+	rm -f *.o queue_test bits double_list list_test divisor pointers numbers tree stack_test array_test
