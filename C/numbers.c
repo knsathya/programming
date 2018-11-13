@@ -9,7 +9,7 @@ int itoa(int num, int base, char *str)
 	if (!str)
 		return -EINVAL;
 
-	if (i == 0) {
+	if (num == 0) {
 		str[i++] = '0';
 		str[i] = '\0';
 		return 0;
@@ -43,4 +43,9 @@ int itoa(int num, int base, char *str)
 
 
 	return 0;
+}
+
+int poweroftwo(int n)
+{
+	return n & (!(n & (n - 1)));
 }

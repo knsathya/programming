@@ -11,7 +11,7 @@ divisor: divisor.o
 
 double_list: double_list.o
 
-single_list: single_list.o
+single_list: single_list.o list_test.o
 
 tree: tree.o
 
