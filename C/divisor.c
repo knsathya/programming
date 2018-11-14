@@ -7,7 +7,7 @@ int divide(int divident, int divisor)
 	if (divident < divisor)
 		return 0;
 
-	sign = (divident < 0) ^ (divisor < 0) ? -1 : 1;
+	sign = (divisor < 0) ? -1 : 1;
 
 	while (divident >= divisor) {
 		divident = divident - divisor;

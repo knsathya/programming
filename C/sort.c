@@ -124,7 +124,15 @@ int bsort_list(node_t **head)
  *
  *		 return (i + 1)
  *	}
- *		 
+ *
+ *
+ * Linked List:
+ *
+ *	1. Divide the list into two sections. Find the pivot point such
+ *	   all elements left of pivot point will be less than pivot
+ *	   point. All elements right of pivot point will have values
+ *	   higher than pivot element.
+ *
  */
 
 void swap_array_data(array_t *data_a, array_t *data_b)
@@ -169,4 +177,91 @@ int qsort_array(array_t *data, int low, int high)
 	}
 
 	return 0;
+}
+
+node_t *qsort_list_partition(node_t *head, node_t *tail, node_t **nhead,
+			 node_t **ntail)
+{
+	node_t *prev = NULL, *curr = head, *pivot = tail, *temp;
+
+	while (curr != pivot) {
+		if (curr->data < pivot->data) {
+			if (!*nhead)
+				*nhead = curr;
+			prev = curr;
+			curr = curr->next;
+		} else {
+			temp = curr->next;
+			if (prev)
+				prev->next = temp;
+			tail->next = curr;
+			curr->next = NULL;
+			tail = curr;
+			curr = temp;
+		}
+	}
+
+	if (!*nhead)
+		*nhead = pivot;
+
+	*ntail = tail;
+
+	return pivot;
+}
+
+node_t *qsort_list_recur(node_t *head, node_t *tail)
+{
+	node_t *pivot, *newHead = NULL, *newTail = NULL, tmp;
+
+	// base condition
+	if (!head || head == tail)
+		return head;
+
+	// Partition the list, newHead and newTail will be updated
+	// by the partition function
+
+	pivot = partition(head, tail, &newHead, &newTail);
+
+	// If pivot is the smallest element - no need to recur for
+	// the left part.
+	if (newHead != pivot)
+	{
+		// Set the node before the pivot node as NULL
+	        tmp = newHead;
+		while (tmp->next != pivot)
+	            tmp = tmp->next;
+	        tmp->next = NULL;
+
+	        // Recur for the list before pivot
+		newHead = qsort_list_recur(newHead, tmp);
+
+		// Change next of last node of the left half to pivot
+	        tmp = newHead;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next =  pivot;
+	}
+
+	// Recur for the list after the pivot element
+	pivot->next = quickSortRecur(pivot->next, newTail);
+
+    return newHead;
+}
+
+int qsort_list(node_t **head)
+{
+	node_t *tail;
+
+	if (!head)
+		return -EINVAL;
+
+	tail = *head;
+
+	if (!tail)
+		return -EINVAL;
+
+	while (tail->next)
+		tail = tail->next;
+
+	*head = qsort_recur(*head, tail);
 }
