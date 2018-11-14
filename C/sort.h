@@ -9,5 +9,6 @@ typedef struct node {
 
 int bsort_array(array_t *data, int len);
 int bsort_list(node_t **head);
+int qsort_array(array_t *data, int low, int high);
 
 #endif

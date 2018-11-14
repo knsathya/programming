@@ -63,10 +63,8 @@ int bsort_list(node_t **head)
 		prev = curr = *head;
 		if (curr)
 			next = curr->next;
-		printf("Starting curr:%p sorted:%p\n", curr, sorted);
 
 		while (next != sorted) {
-			printf("Bsort curr:%p,%d next:%p,%d\n", curr, curr->data, next, next->data);
 			if ( curr->data > next->data) {
 				if (*head == curr)
 					*head = next;
@@ -80,12 +78,95 @@ int bsort_list(node_t **head)
 				curr = next;
 			}
 			next = curr->next;
-			printf("Asort curr:%p,%d next:%p,%d\n", curr, curr->data, next, next != NULL ? next->data : -1);
 		}
 
 		sorted = curr;
 
 	} while (swapped);
+
+	return 0;
+}
+
+
+/*
+ * Quicksort:
+ *
+ * Psudocode:
+ *
+ * Array:
+ *
+ *	quickSort(arr[], low, high)
+ *	{
+ *		if (low < high)	{
+ *			//pi is partitioning index, arr[p] is now at right place
+ *			pi = partition(arr, low, high);
+ *			quickSort(arr, low, pi - 1);  // Before pi
+ *			quickSort(arr, pi + 1, high); // After pi
+ *		}
+ *	}
+ *
+ *	partition (arr[], low, high)
+ *	{
+ *		// pivot (Element to be placed at right position)
+ *		pivot = arr[high];
+ *
+ *		 i = (low - 1)  // Index of smaller element
+ *
+ *		 for (j = low; j <= high- 1; j++) {
+ *			// If current element is smaller than or equal to pivot.
+ *			 if (arr[j] <= pivot) {
+ *				  i++;    // increment index of smaller element
+ *				  swap arr[i] and arr[j]
+ *			 }
+ *		 }
+ *
+ *		 swap arr[i + 1] and arr[high])
+ *
+ *		 return (i + 1)
+ *	}
+ *		 
+ */
+
+void swap_array_data(array_t *data_a, array_t *data_b)
+{
+	if (*data_a != *data_b) {
+		*data_a = *data_a ^ *data_b;
+		*data_b = *data_a ^ *data_b;
+		*data_a = *data_a ^ *data_b;
+	}
+}
+
+int qsort_array_partition(array_t *data, int low, int high)
+{
+	int i, j;
+
+	if (!data)
+		return -EINVAL;
+
+
+	i =  low - 1;
+
+	for (j = low; j <= high - 1; j++) {
+		if (data[j] < data[high]) {
+			i++;
+			swap_array_data(&data[j], &data[i]);
+		}
+	}
+
+	swap_array_data(&data[i + 1], &data[high]);
+
+	return i + 1;
+}
+
+int qsort_array(array_t *data, int low, int high)
+{
+	int pi;
+
+	if (low < high) {
+		pi = qsort_array_partition(data, low, high);
+		qsort_array(data, low, pi - 1);
+		qsort_array(data, pi  + 1,  high);
+	}
 
 	return 0;
 }

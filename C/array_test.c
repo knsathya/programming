@@ -7,7 +7,7 @@
 int main(int argc, char *argv[])
 {
 	int len = 0, choice, ret, ret1, ret2;
-	array_t *data = NULL, *tmp;
+	array_t *data = NULL;
 
 	printf("Enter the length of the array\n");
 	scanf("%d", &len);
@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
 		printf("3: Reverse the array\n");
 		printf("4: Recursive reverse the array\n");
 		printf("5: Bubble sort the array\n");
+		printf("6: Quick sort the array\n");
 		scanf("%d", &choice);
 
 		switch(choice) {
@@ -67,6 +68,10 @@ int main(int argc, char *argv[])
 		case 5:
 			printf("case 5\n");
 			bsort_array(data, len);
+			break;
+		case 6:
+			printf("case 6\n");
+			qsort_array(data, 0, len - 1);
 			break;
 		default:
 			break;
