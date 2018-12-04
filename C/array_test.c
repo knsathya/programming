@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-#include "arrays.h"
-#include "sort.h"
+#include "array.h"
+#include "array_sort.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,6 +27,11 @@ int main(int argc, char *argv[])
 		printf("4: Recursive reverse the array\n");
 		printf("5: Bubble sort the array\n");
 		printf("6: Quick sort the array\n");
+		printf("7: Rotate left\n");
+	        printf("8: Rotate right\n");
+		printf("9: Find rotation element\n");
+	        printf("10: Find element index in rotated array\n");
+		printf("11: Find rotation count\n");
 		scanf("%d", &choice);
 
 		switch(choice) {
@@ -73,6 +78,33 @@ int main(int argc, char *argv[])
 			printf("case 6\n");
 			qsort_array(data, 0, len - 1);
 			break;
+		case 7:
+			printf("case 7\n");
+			printf("Enter the number of left rotations\n");
+			scanf("%d", &ret1);
+			rotate_left(data, len, ret1);
+			break;
+		case 8:
+			printf("case 8\n");
+			printf("Enter the number of right rotations\n");
+			scanf("%d", &ret1);
+			rotate_right(data, len, ret1);
+			break;
+		case 9:
+			printf("case 9\n");
+			printf("Rotation element: %d\n",
+			find_rotation_element(data, 0, len-1, len-1));
+			break;
+		case 10:
+			printf("case 10\n");
+			printf("Enter search element in rotated array:\n");
+			scanf("%d", &ret1);
+			printf("Element index of %d is %d\n", ret1,
+			       rotated_binary_search(data, 0, len - 1, ret1));
+	        case 11:
+			printf("case 11\n");
+			printf("Number of rotations: %d\n",
+			find_number_rotations(data, 0, len - 1));
 		default:
 			break;
 		}
@@ -80,3 +112,4 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
